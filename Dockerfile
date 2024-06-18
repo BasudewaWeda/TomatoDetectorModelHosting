@@ -8,7 +8,7 @@ COPY --chown=user ./requirements.txt requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# RUN pip install packages.txt
+RUN pip install -r packages.txt
 
 COPY --chown=user . /app
 
