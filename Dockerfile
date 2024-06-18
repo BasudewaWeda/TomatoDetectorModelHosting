@@ -8,7 +8,7 @@ COPY --chown=user ./requirements.txt requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-RUN pip uninstall opencv-python
+RUN pip uninstall opencv-python -y
 
 COPY --chown=user . /app
 
