@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY --chown=user ./requirements.txt requirements.txt
 
-COPY --chown=user ./requirements.txt requirements.txt
+COPY --chown=user ./packages.txt packages.txt
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
