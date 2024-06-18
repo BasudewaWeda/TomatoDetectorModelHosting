@@ -8,6 +8,8 @@ COPY --chown=user ./requirements.txt requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
+# RUN pip install packages.txt
+
 COPY --chown=user . /app
 
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
