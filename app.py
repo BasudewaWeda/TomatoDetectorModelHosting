@@ -1,7 +1,8 @@
 from fastapi import FastAPI, File, UploadFile
-import cv2
+from PIL import Image
 import numpy as np
 from ultralytics import YOLO
+import io
 
 app = FastAPI()
 model = YOLO("best.pt")
@@ -16,8 +17,10 @@ async def predict(image: UploadFile = File(...)):
         return {"message": "No image file uploaded!"}, 400
 
     image_bytes = await image.read()
-    opencv_image = cv2.imdecode(np.fromstring(image_bytes, np.uint8), cv2.IMREAD_COLOR)
-    results = model(opencv_image)  # Replace with your model call
+    pillow_image = Image.open(io.BytesIO(image_bytes))
+    opencv_image = np.array(pillow_image)
+
+    results = model(opencv_image)
 
     fresh_count = 0
     rotten_count = 0
