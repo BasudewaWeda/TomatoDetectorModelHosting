@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 import cv2
 import numpy as np
 from ultralytics import YOLO
+import requests
 
 app = FastAPI()
 model = YOLO("best.pt")
@@ -30,9 +31,22 @@ async def predict(image: UploadFile = File(...)):
                 else:
                     rotten_count += 1
 
-    response_data = {
+    data = {
         "fresh": fresh_count,
         "rotten": rotten_count,
+    }
+
+    request.post('https://tomato-detector-web.vercel.app/update', data)
+
+    class_response = 0
+
+    if fresh_count >= rotten_count:
+        class_response = 1 # 1 = fresh
+    else:
+        class_response = 0 # 0 = rotten
+
+    response_data = {
+        'class': class_response
     }
 
     return response_data
